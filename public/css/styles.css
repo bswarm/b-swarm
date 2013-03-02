@@ -1,0 +1,96 @@
+.jsHiveClientBox table{
+	width:100%;
+}
+
+.jsHiveClientBox table td:nth-child(1){
+	width:20%;
+}
+
+
+.loaded0{color:red;}
+.loaded1{color:orange;}
+.loaded2{color:green;}
+.loaded3{color:green; font-weight: bold;}
+
+.ready{background-color: #f2f2f2;}
+.notReady{background-color: pink;}
+
+
+.b-swarm-dashboard-left{
+	float:left;
+	width:50%;	
+	margin-right:20px;
+}
+.b-swarm-dashboard-left table{width:100%;}
+.b-swarm-dashboard-right{
+	float:left;
+}
+
+
+/* styles for echo module */
+#echoJob table{width:100%;}
+#echoJob table td{
+	vertical-align: top;
+	padding:4px;
+}
+#echoJob table td:nth-child(1){width:15%;}
+#echoJob table td:nth-child(2){width:25%;}
+#echoJob table td:nth-child(3){width:30%;}
+#echoJob table td:nth-child(4){width:30%;}
+
+#echoStatus,
+#echoText,
+#echoResponse,
+#echoDataStats{padding:4px;margin:4px;position:relative;height:100px;border:1px #dedede solid; overflow:auto;background-color: #fff;}
+
+#echoNo{width:20px;}
+
+/* styles for dbpedia module*/
+
+#dbpediaJob table{width:100%;}
+#dbpediaJob table td{
+	vertical-align: top;
+	padding:4px;
+}
+
+#dbpediaJob table td:nth-child(1){width:15%;}
+#dbpediaJob table td:nth-child(2){width:20%;}
+#dbpediaJob table td:nth-child(3){width:35%;}
+#dbpediaJob table td:nth-child(4){width:30%;}
+
+#dbpedia37Status,
+#dbpediaQuery,
+#dbpediaResponse,
+#dbpediaDataStats{padding:4px;margin:4px; position:relative;height:400px;border:1px #dedede solid; overflow:auto;background-color: #fff;}
+
+
+/* styles for mandelbrot */
+#mandelbrotJob table{width:100%;}
+#mandelbrotJob table td{
+	vertical-align: top;
+	padding:4px;
+}
+
+
+#mandelbrotJob table td:nth-child(1){width:15%;}
+#mandelbrotJob table td:nth-child(2){width:55%;}
+#mandelbrotJob table td:nth-child(3){width:30%;}
+
+#mandelbrotStatus,
+#mandelbrotDataStats{padding:4px;margin:4px;position:relative;height:450px;border:1px #dedede solid; overflow:auto;background-color: #fff;}
+
+#fractal{margin:4px; border:1px #dedede solid;background-color: #fff;}
+
+/* image evolutions styles  */
+
+#imageEvolutionJob table{width:100%;}
+#imageEvolutionJob table td{
+	vertical-align: top;
+	padding:4px;
+}
+
+#imageEvolutionStatus,
+#imageEvolutionDataStats{padding:4px;position:relative;height:450px;border:1px #dedede solid; overflow:auto;background-color: #fff;}
+
+
+

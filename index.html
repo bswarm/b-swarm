@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>B-SWARM</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="UTF-8">
+	
+	<!-- Bootstrap -->	
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+	<link href="css/font-awesome.css" rel="stylesheet" media="screen">
+	
+	<link type="text/css" rel="stylesheet" href="css/styles.css" />
+	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/overcast/jquery-ui.css" rel="stylesheet" type="text/css">
+	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+	
+	<!-- Bootstrap -->	
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="js/rdf_store.js"></script>
+	<script type="text/javascript" src="js/LocalStorageTester.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
+	
+	<!-- HERE JOBS IMPLEMENTATIONS -->
+	<script type="text/javascript" src="js/jobs/echo.js"></script>
+	<script type="text/javascript" src="js/jobs/dbpedia.js"></script>
+	<script type="text/javascript" src="js/jobs/mandelbrot.js"></script>
+	<script type="text/javascript" src="js/jobs/imageEvolution.js"></script>
+
+	<script type="text/javascript" src="js/jobManager.js"></script>
+	
+	
+
+	<script>
+		$(document).ready(function(){
+		  if(!('WebSocket' in window)){
+				alert(
+			    "Your browser does not support websockets\n"+
+				"They are not strictly neccessary but this application will work better with them\n"+
+				"In most new browsers they are enabled by default\n"+
+				"If you are using opera - enable them by typing in address bar the following:\n\n"+
+				"opera:config#UserPrefs|EnableWebSockets \n\n"+
+				"Then thick the box and save changes (scroll to the bottom and hit save button)");
+		  }
+		  var socket = io.connect('http://##HOST##:##PORT##');
+		  var jm = new JobManager("#clientInfo",socket);
+		  jm.registerJobHandler(new EchoJob("#echoJob",true));
+		  jm.registerJobHandler(new DbpediaJob("#dbpediaJob",true));
+		  jm.registerJobHandler(new MandelbrotJob("#mandelbrotJob",true));
+		  jm.registerJobHandler(new ImageEvolutionJob("#imageEvolutionJob",true));
+		});
+	</script>
+	<style type="text/css">
+/* Replace Bootstrap Icons Background Css With Font-Awesome Icons */
+[class^="icon-"],[class*=" icon-"],.icon-white {
+	background-image: none;
+}
+
+header {
+	width: 100%;
+	background: #F2F2F2;
+	padding-bottom: 20px;
+	margin-bottom: 30px;
+	box-shadow: 0px 1px 10px #CCC;
+}
+
+.masthead {
+	text-align: center;
+}
+
+.masthead img {
+	margin: 40px;
+}
+
+.masthead p {
+	font-size: 16px;
+}
+
+.masthead h1 {
+	font-size: 36px;
+	margin: 0 0 20px;
+}
+
+.font-bree-serif {
+	font-family: 'Bree Serif', serif;
+	font-weight: 400;
+}
+
+.jumbo {
+	margin: 30px 0;
+}
+
+.jumbo .btn-large {
+	padding: 20px 30px;
+	margin-right: 10px;
+	font-size: 18px;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.tab-content .feature-icon {
+	float: left;
+	margin: 7px 10px 0 0;
+	font-size: 20px;
+}
+
+.tab-content h3 {
+	font-size: 18px;
+	line-height: 27px;
+	margin: 0
+}
+
+.connectedClientsNo{
+	font-size: 2em;
+	font-weight: bold;
+	color: green;
+}
+.onlyOneClient{ color:red;}
+
+footer {
+	width: 100%;
+	background: #333;
+	padding-top: 20px;
+	margin-top: 20px;
+}
+
+footer p {
+	font-size: 11px;
+	color: #fff;
+}
+</style>
+
+</head>
+<body>
+	<header class="masthead">
+		<div class="container">
+			<img src="img/b-swarm.png" />
+			<p>New way to distribute your heavy javascript jobs. Build on top of node.js, socket.io, express, HTML5</p>
+			<p class="jumbo">
+				<a href="https://github.com/szydan/b-swarm" class="btn btn-inverse btn-large font-open-sans-normal">
+					<strong>View on GitHub</strong>
+				</a>
+				<a href="https://github.com/szydan/b-swarm/archive/master.zip" class="btn btn-success btn-large font-open-sans-normal">
+					<strong>Download</strong> <small>(v1.0.0)</small>
+				</a>
+			</p>
+			<p>If you think other javascript examples which are easy to distribute using b-swarm please share it.</p>
+			<p class="share">
+				<a href="https://twitter.com/bswarm" class="twitter-follow-button" data-show-count="false">Follow @bswarm</a>
+				<a href="https://twitter.com/share" class="twitter-share-button" data-via="szydan">Tweet</a>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			</p>
+		</div>
+	</header>
+	<div class="main-contnet">
+		<div class="container">
+			<div class="span12">
+				<div class="tabbable">
+					<ul class="nav nav-tabs" id="pluginTab">
+						<li class=""><a href="#overview">Overview</a></li>
+						<li class="active"><a href="#examples">Examples</a></li>
+						<!-- 
+						<li class=""><a href="#howtouse">How To Use</a></li>
+						<li class=""><a href="#documentation">Documentation</a></li>
+						<li class=""><a href="#faq">FAQ</a></li>
+						<li class=""><a href="#roadmap">Roadmap and changelog</a></li>
+						<li class=""><a href="#" class="tip" data-original-title="Link to your Github account">Submit Issues</a></li>
+						 -->
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane" id="overview">
+							<h1 class="align-center">Features</h1>
+							<h4 class="align-center">
+								B-SWARM - build on top of node.js socket.io and express to allow you to distribute your heavy js jobs</h4>
+							<br />
+							<div class="row features">
+								<div class="span4">
+									<i class="feature-icon icon-th"></i>
+									<h3>Distributed</h3>
+									<p>B-SWARM allows to easily distribute the heavy computation to other users.
+										
+									</p>
+								</div>
+								<!--end span4-->
+								<div class="span4">
+									<i class="feature-icon icon-resize-full"></i>
+									<h3>Open Source</h3>
+									<p>
+									All code is open under <a href="LICENSE.txt">MIT licence</a>. You can setup your own B-SWARM in minutes.
+									</p>
+								</div>
+								<!--end span4-->
+								<div class="span4">
+									<i class="feature-icon icon-flag"></i>
+									<h3>Made With Node.js</h3>
+									<p>
+										To handle huge number of events and lower the entry barier for developers
+									</p>
+								</div>
+								<!--end span4-->
+							</div>
+							<!--end row-->
+							<div class="row features">
+								<div class="span4">
+									<i class="feature-icon icon-cogs"></i>
+									<h3>Easy to extend</h3>
+									<p>
+									Program your own B-SWARM job. Implement one simple interface with a few methods 
+									and the swarm will take care about the rest.
+									</p>
+								</div>
+								<!--end span4-->
+								<div class="span4">
+									<i class="feature-icon icon-font"></i>
+									<h3>Easy to setup</h3>
+									<p>You need a server with Node.js and Git installed, plus 5min of your time.</p>
+								</div>
+								<!--end span4-->
+								<div class="span4">
+									<i class="feature-icon icon-twitter"></i>
+									<h3>Almost cross browser ;-)</h3>
+									<p>Currently tested on Chrome,Safari,Firefox. There are some issues on Opera. Not tested on IE</p>
+								</div>
+								<!--end span4-->
+							</div>
+							<!--end row-->
+							<hr class="soften">
+							<!-- 
+							<h1 class="align-center">Showcase</h1>
+							<h4 class="align-center ">Websites
+								using this plugin. Check Out</h4>
+							<ul class="thumbnails">
+								<li class="span3"><a href="#" class="thumbnail"> <img
+										src="http://placehold.it/260x180" alt="">
+								</a></li>
+								<li class="span3"><a href="#" class="thumbnail"> <img
+										src="http://placehold.it/260x180" alt="">
+								</a></li>
+								<li class="span3"><a href="#" class="thumbnail"> <img
+										src="http://placehold.it/260x180" alt="">
+								</a></li>
+								<li class="span3"><a href="#" class="thumbnail"> <img
+										src="http://placehold.it/260x180" alt="">
+								</a></li>
+							</ul>
+							 -->
+							<!--end thumbnails-->
+						</div>
+
+						<div class="tab-pane  active" id="examples">
+							<div class="container">
+								<h2>Dashboard</h2>
+								<div id="clientInfo"></div>
+								<p>Below a few examples implemented with b-swarm. Note that all results for all examples are NOT computed on your machine.
+								In all examples the computation description is sent to other connected clients, computed and sent back.</p>
+								<p>As this is a demo project - there is a good chance that there is no one connected at the same time. If "number of connected clients" <= 2
+								simply open this page in yet another browser. Once there are 2 connected clients the examples should work.</p>
+							</div>
+							<div class="container">
+								<h2>Hello world - Echo</h2>
+								<p>This is a Hello World example - Enter the text and press the button, text is sent to N clients and the clients echo it back.</p>
+								<div id="echoJob" ></div>
+							</div>
+							<div class="container">
+								<h2>Dbpedia querying</h2>
+								<p>This is an attempt to do distributed database query.</p>
+								<p>When you opened this page in the background it downloaded a small piece of <a href="http://dbpedia.org/About">dbpedia</a> database dump.
+								The downloaded data were about people described in wikipedia. Once the data where downloaded they were parsed and loaded into in-memory <a href="http://en.wikipedia.org/wiki/SPARQL">sparql</a> query engine.
+								Once you write such query and press the button the query is send to all connected clients, the clients are executing the query over their own little slice of data and results are sent back to you.</p>
+								<p>In the example the query is: <b>Give me max 10 people from wikipedia which has name which starts with "Adam"</b> 
+								</p>
+								<div id="dbpediaJob" ></div>
+							</div>
+							<div class="container">
+								<h2>Mandelbrot Set rendering</h2>
+								<p>This example computes <a href="http://en.wikipedia.org/wiki/Mandelbrot_set">Mandelbroat Set</a>. Once user press the button the area is devided to smaller blocks. 
+								For each block system generate the sets of neccessary information which are sent to connected clients. The client receive it computes the points of Mandelbroat set and sent them back.
+								All results are assembled and user can see the rendered set. User can also click on any place - the fractal is zoomed in and the whole operation will be repeted.</p>
+								<div id="mandelbrotJob" ></div>
+							</div>
+							<div class="container">
+								<h2>Image evolution</h2>
+								<p>Combining simple evolution alghoritm with b-swarm allow to render some "artistic" images composition using the power of connected clients.
+								First you have to upload an image you would like to use. (please not too big). when you press the "Start job" button the image is devided to smaller parts
+								each part is then send to connected client. The connected client is trying to "evolve" an image which matches the piece he received, but it assembles the new image only from simple shapes.
+								Than the result is sent back to you. The whole process is repeated antil desire quality is reached for all parts.
+								</p>
+								<div id="imageEvolutionJob" ></div>
+							</div>
+						</div>
+					
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="span6">
+					<p>© B-SWARM. All Rights Reserved</p>
+				</div>
+				<div class="span2 offset4">
+					<p>
+						<a href="#" id="top">Go To Top</a>
+					</p>
+				</div>
+				<!--end span2-->
+			</div>
+			<!--end row-->
+		</div>
+		<!--end container-->
+	</footer>
+
+</body>
+<script type="text/javascript">
+	$('#pluginTab a').click(function (e) {
+		e.preventDefault();
+		$(this).tab('show');
+	});
+
+	gotoTop();
+	function gotoTop(){
+		 // scroll body to 0px on click
+			$('a#top').on('click',function () {
+				$('body,html').animate({
+					scrollTop: 0
+				}, 800);
+				return false;
+			});
+	};
+
+	
+	
+  
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36277001-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</html>

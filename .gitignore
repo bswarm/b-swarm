@@ -1,0 +1,7 @@
+.DS_Store
+.project
+.settings
+public/data
+node_modules
+
+/.externalToolBuilders/
